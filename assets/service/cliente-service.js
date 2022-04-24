@@ -36,6 +36,7 @@ const listaCliente = () => { // função literal, com arrow function
         }
 
         http.send()
+        
     })
 
     return promise
