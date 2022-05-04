@@ -27,7 +27,6 @@ tabela.addEventListener("click", (evento) => {
     let btnExcluir = evento.target.className === 'botao-simples botao-simples--excluir'
     if(btnExcluir) {
         evento.preventDefault()
-        alert('Tem certeza que quer apagar o cliente?')
         const linhaCliente = evento.target.closest('[data-id]')
         let id = linhaCliente.dataset.id
         clienteService.deleteCliente(id)
