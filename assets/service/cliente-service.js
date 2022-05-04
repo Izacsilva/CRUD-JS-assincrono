@@ -37,7 +37,7 @@ const detalhaCliente = (id) => {
 }
 
 const atualizaCliente = (id, nome, email) => {
-    return fetch(`http://localhost:3000/profile${id}`, {
+    return fetch(`http://localhost:3000/profile/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -47,15 +47,22 @@ const atualizaCliente = (id, nome, email) => {
             nome: nome,
             email: email
         })
-
+        
+    })
+    .then(resposta => {
+        return resposta.json()
+    })
+    .catch(erro => {
+        document.write(erro)
+    })
         
         
-    }).then(res => {return res.body})
 }
 
 export const clienteService = {
     listaClientes,
     criaCliente,
     deleteCliente,
-    detalhaCliente
+    detalhaCliente,
+    atualizaCliente
 }
