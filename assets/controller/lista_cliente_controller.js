@@ -22,23 +22,44 @@ const criaNovaLinha = (nome, email, id) => {
 
 const tabela = document.querySelector('[data-tabela]')
 
-tabela.addEventListener("click", (evento) => {
+tabela.addEventListener("click", async (evento) => {
     
     let btnExcluir = evento.target.className === 'botao-simples botao-simples--excluir'
     if(btnExcluir) {
-        evento.preventDefault()
-        const linhaCliente = evento.target.closest('[data-id]')
-        let id = linhaCliente.dataset.id
-        clienteService.deleteCliente(id)
-            .then(()=>{
-                linhaCliente.remove()
-            })
+        try{
+            evento.preventDefault()
+
+            const linhaCliente = evento.target.closest('[data-id]') // pega o elemento pai"ancestral" mais próximo.
+
+            let id = linhaCliente.dataset.id
+            
+            await clienteService.deleteCliente(id) 
+            //pausa a execução da função assíncrona para esperar a resolução da promise
+
+            linhaCliente.remove()
+        }catch(erro) {
+            console.log(erro)
+            window.location.href = '../../telas/erro.html'
+        }
+    }           
+            
+})   
+
+const render = async () => {
+    try{
+        const clienteServer = await clienteService.listaClientes() 
+        // A chamada a função clienteSevice é uma promise. O await, que quer dizer aguarda, ficará esperando
+        // o retorno da função.
+    
+        clienteServer.forEach(element => { 
+            // com o retorno armazenado na variável utilizaremos os dados para fazer um loop
+            // extraindo da lista nome, e-mail e id, para então exir na nossa tabela html.
+            tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
+        });
+    }catch(erro){
+        console.log(erro)
+        window.location.href = '../../telas/erro.html'
+    }
     }
 
-})
-
-clienteService.listaClientes().then( data => { // Função com parâmentro "data"
-    data.forEach(element => {
-        tabela.appendChild(criaNovaLinha(element.nome, element.email, element.id))
-    });
-})
+render()
