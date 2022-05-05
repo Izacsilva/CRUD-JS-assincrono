@@ -53,7 +53,7 @@ const detalhaCliente = (id) => {
 }
 
 const atualizaCliente = (id, nome, email) => {
-    return fetch(`http://localhost:3000/profle/${id}`, {
+    return fetch(`http://localhost:3000/profile/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
